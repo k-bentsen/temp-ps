@@ -46,6 +46,10 @@
                 <behavior>Edit</behavior>
                 <field>Expired_Revoked__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Permission_Set_Assignment_Id__c</field>
+            </layoutItems>
         </layoutColumns>
         <layoutColumns>
             <layoutItems>

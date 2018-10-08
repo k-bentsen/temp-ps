@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Workflow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fieldUpdates>
+        <fullName>Calculate_Expiration</fullName>
+        <field>Expires_At__c</field>
+        <formula>Granted_At__c + (CASE(TEXT(Duration_Unit__c), &quot;Minutes&quot;, 0.000691 *  Duration__c, &quot;Hours&quot;, 0.0416667 * Duration__c, &quot;Days&quot;, 1 * Duration__c, 0.0416667 * Duration__c) - 0.0416667)</formula>
+        <name>Calculate Expiration</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Formula</operation>
+        <protected>false</protected>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>Expired_Revoked_TRUE</fullName>
+        <field>Expired_Revoked__c</field>
+        <literalValue>1</literalValue>
+        <name>Expired/Revoked = TRUE</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Literal</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>true</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>Grant_Time_NOW</fullName>
+        <field>Granted_At__c</field>
+        <formula>NOW()</formula>
+        <name>Grant Time = NOW</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Formula</operation>
+        <protected>false</protected>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>Status_Expire</fullName>
+        <field>Status__c</field>
+        <literalValue>Expired</literalValue>
+        <name>Status = Expire</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Literal</operation>
+        <protected>false</protected>
+    </fieldUpdates>
+    <rules>
+        <fullName>Permission Set Granted</fullName>
+        <actions>
+            <name>Calculate_Expiration</name>
+            <type>FieldUpdate</type>
+        </actions>
+        <actions>
+            <name>Grant_Time_NOW</name>
+            <type>FieldUpdate</type>
+        </actions>
+        <active>true</active>
+        <criteriaItems>
+            <field>Permission_Set_Grant__c.Granted__c</field>
+            <operation>equals</operation>
+            <value>True</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>Permission_Set_Grant__c.Expired_Revoked__c</field>
+            <operation>notEqual</operation>
+            <value>True</value>
+        </criteriaItems>
+        <triggerType>onCreateOrTriggeringUpdate</triggerType>
+        <workflowTimeTriggers>
+            <actions>
+                <name>Expired_Revoked_TRUE</name>
+                <type>FieldUpdate</type>
+            </actions>
+            <actions>
+                <name>Status_Expire</name>
+                <type>FieldUpdate</type>
+            </actions>
+            <offsetFromField>Permission_Set_Grant__c.Expires_At__c</offsetFromField>
+            <timeLength>1</timeLength>
+            <workflowTimeTriggerUnit>Hours</workflowTimeTriggerUnit>
+        </workflowTimeTriggers>
+    </rules>
+</Workflow>
