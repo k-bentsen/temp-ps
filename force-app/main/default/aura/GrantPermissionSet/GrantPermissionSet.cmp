@@ -1,0 +1,23 @@
+<aura:component implements="flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId">
+    <aura:attribute name="recordId" type="string" access="public" description="Current Record Id"/>
+    <!--<aura:attribute name="permSetGrant" type="Permission_Set_Grant__c" default="{'sobjectType': 'Permission_Set_Grant__c' }"/>-->
+    <div>
+        <lightning:select label="Permission Set" required="true" aura:id="permSetId">
+            <option value="1">one</option>
+            <option value="2">two</option>
+            <option value="3">three</option>
+        </lightning:select>
+        <lightning:recordEditForm onsubmit="{!c.handleSubmit}" aura:id="grantEditForm" objectApiName="Permission_Set_Grant__c">
+            <lightning:inputField fieldName="User__c" aura:id="userId" required="true" onchange="{!c.userUpdate}"/>
+            <div class="slds-grid">
+                <div class="slds-col slds-size_1-of-2">
+                    <lightning:inputField fieldName="Duration__c" aura:id="dur" />
+                </div>
+                <div class="slds-col slds-size_1-of-2">
+                    <lightning:inputField fieldName="Duration_Unit__c" aura:id="durUnit"/>
+                </div>
+            </div>
+            <!--<lightning:button class="slds-m-top_small" type="submit" name="save" label="Grant" />-->
+        </lightning:recordEditForm>
+    </div>
+</aura:component>
