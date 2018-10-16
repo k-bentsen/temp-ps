@@ -46,4 +46,8 @@
         <tab>Permission_Set_Grant__c</tab>
         <visibility>Visible</visibility>
     </tabSettings>
+    <tabSettings>
+        <tab>Permission_Set_Grants_Manager</tab>
+        <visibility>Visible</visibility>
+    </tabSettings>
 </PermissionSet>

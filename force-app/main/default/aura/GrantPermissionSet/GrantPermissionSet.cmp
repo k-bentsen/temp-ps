@@ -1,4 +1,4 @@
-<aura:component implements="flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId">
+<aura:component implements="flexipage:availableForAllPageTypes">
     <aura:attribute name="recordId" type="string" access="public" description="Current Record Id"/>
     <!--<aura:attribute name="permSetGrant" type="Permission_Set_Grant__c" default="{'sobjectType': 'Permission_Set_Grant__c' }"/>-->
     <div>
