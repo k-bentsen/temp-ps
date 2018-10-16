@@ -1,23 +1,30 @@
-<aura:component implements="flexipage:availableForAllPageTypes">
+<aura:component implements="flexipage:availableForAllPageTypes" controller="PermissionSetGrantMgrController">
+    <aura:handler name="init" value="{!this}" action="{!c.onInit}"/>
     <aura:attribute name="recordId" type="string" access="public" description="Current Record Id"/>
-    <!--<aura:attribute name="permSetGrant" type="Permission_Set_Grant__c" default="{'sobjectType': 'Permission_Set_Grant__c' }"/>-->
-    <div>
-        <lightning:select label="Permission Set" required="true" aura:id="permSetId">
-            <option value="1">one</option>
-            <option value="2">two</option>
-            <option value="3">three</option>
-        </lightning:select>
-        <lightning:recordEditForm onsubmit="{!c.handleSubmit}" aura:id="grantEditForm" objectApiName="Permission_Set_Grant__c">
-            <lightning:inputField fieldName="User__c" aura:id="userId" required="true" onchange="{!c.userUpdate}"/>
-            <div class="slds-grid">
-                <div class="slds-col slds-size_1-of-2">
-                    <lightning:inputField fieldName="Duration__c" aura:id="dur" />
+    <aura:attribute name="permSets" type="PermissionSet[]" access="public" description="Store Permission Sets retreived from server"/>
+    <lightning:tabset class="slds-p-around_small">
+        <lightning:tab label="Create Grant" id="cg" >
+            <lightning:select label="Permission Set" required="true" aura:id="permSetId" onchange="{!c.permSetListChange}">
+                <option value="">select...</option>
+                <aura:iteration items="{!v.permSets}" var="ps">
+                    <option value="{!ps.Id}">{!ps.Label}</option>
+                </aura:iteration>
+            </lightning:select>
+            <lightning:recordEditForm onsubmit="{!c.handleSubmit}" aura:id="grantEditForm" objectApiName="Permission_Set_Grant__c">
+                <lightning:inputField fieldName="User__c" aura:id="userId" required="true" onchange="{!c.userUpdate}"/>
+                <div class="slds-grid">
+                    <div class="slds-col slds-size_1-of-2">
+                        <lightning:inputField fieldName="Duration__c" aura:id="dur" />
+                    </div>
+                    <div class="slds-col slds-size_1-of-2">
+                        <lightning:inputField fieldName="Duration_Unit__c" aura:id="durUnit"/>
+                    </div>
                 </div>
-                <div class="slds-col slds-size_1-of-2">
-                    <lightning:inputField fieldName="Duration_Unit__c" aura:id="durUnit"/>
-                </div>
-            </div>
-            <!--<lightning:button class="slds-m-top_small" type="submit" name="save" label="Grant" />-->
-        </lightning:recordEditForm>
-    </div>
+                <lightning:button class="slds-m-top_small" type="submit" name="save" label="Grant" />
+            </lightning:recordEditForm>
+        </lightning:tab>
+        <lightning:tab label="View Grants" id="vg">
+
+        </lightning:tab>
+    </lightning:tabset>
 </aura:component>
