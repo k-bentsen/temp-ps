@@ -1,5 +1,6 @@
 ({
     onInit : function(cmp, event, helper){
+        cmp.set("v.missingFlds", ["User","Permission set", "3"]);
         var queryPS = cmp.get("c.getPermissionSets");
         queryPS.setCallback(this, function(resp){
             helper.clearFields(cmp);
@@ -66,7 +67,7 @@
     inputChange : function(cmp, event, helper){
         helper.buttonToggle(cmp);
     }
-    
+
     /* difficulty displaying pop-overs; nice-to-have, save for later
 
     toggleBtnPopover : function(cmp, event, helper){

@@ -18,5 +18,7 @@
     clearFields : function(cmp){
         cmp.find("userId").set("v.value", null);
         cmp.find("permSetId").set("v.value", "");
+        
+        console.log(cmp.get("v.missingFlds"));
     }
 })
