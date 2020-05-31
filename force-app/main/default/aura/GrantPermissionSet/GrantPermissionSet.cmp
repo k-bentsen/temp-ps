@@ -1,19 +1,20 @@
 <aura:component implements="flexipage:availableForAllPageTypes" controller="PermissionSetGrantMgrController">
-    <!--<aura:handler name="init" value="{!this}" action="{!c.onInit}"/>-->
     <aura:attribute name="permSets" type="PermissionSetGrantMgrController.PSWrapper[]" access="public" description="Store Permission Sets retreived from server"/>
     <aura:attribute name="btnDisabled" type="Boolean" default="true"/>
     <aura:attribute name="missingFlds" type="String[]" default=""/>
+    <aura:attribute name="renderPopover" type="Boolean" default="false"/>
+    <aura:attribute name="selectedPS" type="PermissionSetGrantMgrController.PSWrapper"/>
     <lightning:tabset class="slds-p-around_small">
         <lightning:tab label="Create Grant" id="cg" onactive="{!c.onInit}">
             <lightning:spinner aura:id="grantSpinner" size="medium" alternativeText="Saving..." class="slds-hide"/>
-            <lightning:select label="Permission Set" required="true" aura:id="permSetId" onchange="{!c.inputChange}">
-                <option value="">select...</option>
-                <aura:iteration items="{!v.permSets}" var="ps">
-                    <option disabled="{!ps.disabled}" value="{!ps.permSetId}">{!ps.displayText}</option>
-                </aura:iteration>
-            </lightning:select>
             <lightning:recordEditForm aura:id="grantEditForm" objectApiName="Permission_Set_Grant__c">
-               <lightning:inputField fieldName="User__c" aura:id="userId" required="true" onchange="{!c.userUpdate}"/>
+                <lightning:inputField fieldName="User__c" aura:id="userId" required="true" onchange="{!c.userUpdate}"/>
+                <lightning:select label="Permission Set" required="true" onchange="{!c.inputChange}" value="{!v.selectedPS}">
+                    <option value="">select...</option>
+                    <aura:iteration items="{!v.permSets}" var="ps">
+                        <option disabled="{!ps.disabled}" value="{!ps.permSetId}" selected="{!ps.permSetId==v.selectedPS}">{!ps.displayText}</option>
+                    </aura:iteration>
+                </lightning:select>
                 <div class="slds-grid">
                     <div class="slds-col slds-size_1-of-2">
                         <lightning:inputField fieldName="Duration__c" aura:id="dur" onchange="{!c.inputChange}"/>
@@ -22,20 +23,7 @@
                         <lightning:inputField fieldName="Duration_Unit__c" aura:id="durUnit" onchange="{!c.inputChange}"/>
                     </div>
                 </div>
-                <lightning:overlayLibrary aura:id="btnPopover"/>
-                <c:strike_popover variant="base" placement="auto-top" theme="error" class="slds-p-around_xxx-small">
-                    <aura:set attribute="header">
-                        Please complete fields:
-                    </aura:set>
-                    <aura:set attribute="popoverBody">
-                        <ul>
-                            <aura:iteration items="{!v.missingFlds}" var="msg">
-                                <li>&bull;  {!msg}</li>
-                            </aura:iteration>
-                        </ul>
-                    </aura:set>
-                    <lightning:button class="slds-m-top_small" variant="brand" iconName="utility:new" disabled="{!v.btnDisabled}" type="submit" label="Grant" onclick="{!c.insertGrant}"/>
-                </c:strike_popover>
+                <lightning:button class="slds-m-top_small" variant="brand" iconName="utility:new" disabled="{!v.btnDisabled}" type="submit" label="Grant" onclick="{!c.insertGrant}"/>
             </lightning:recordEditForm>
         </lightning:tab>
         <lightning:tab label="View Grants" id="vg">

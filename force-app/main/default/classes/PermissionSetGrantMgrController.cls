@@ -6,16 +6,22 @@ public class PermissionSetGrantMgrController
         List<PermissionSet> permSets = [SELECT Name, LicenseId, License.Name, Label FROM PermissionSet WHERE IsOwnedByProfile = FALSE ORDER BY Name ASC];
         Map<Id, PSWrapper> wrappersByPermSetId = new Map<Id, PSWrapper>();
         for(PermissionSet ps: permSets)
+        {
             wrappersByPermSetId.put(ps.Id, new PSWrapper(ps));
+        }
         if(String.isBlank(userId))
+        {
             return wrappersByPermSetId.values();
+        }
         else 
         {
             User u = [SELECT Profile.UserLicenseId FROM User WHERE Id = :userId];
             List<PermissionSetAssignment> existingPSA = [SELECT PermissionSetId, AssigneeId FROM PermissionSetAssignment WHERE AssigneeId = :userId];
             Set<Id> alreadyAssignedPSIds = new Set<Id>();
             for(PermissionSetAssignment psa: existingPSA)
+            {
                 alreadyAssignedPSIds.add(psa.PermissionSetId);
+            }
             for(PermissionSet ps: permSets)
             {
                 if(!String.isBlank(ps.LicenseId) && u.Profile.UserLicenseId != ps.LicenseId)

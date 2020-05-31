@@ -1,6 +1,5 @@
 ({
     onInit : function(cmp, event, helper){
-        cmp.set("v.missingFlds", ["User","Permission set", "3"]);
         var queryPS = cmp.get("c.getPermissionSets");
         queryPS.setCallback(this, function(resp){
             helper.clearFields(cmp);
@@ -15,15 +14,20 @@
     userUpdate : function(cmp, event, helper){
         var userVal = cmp.find("userId").get("v.value");
         var queryPS = cmp.get("c.getPermissionSets");
+        var currPsId = cmp.get("v.selectedPS");
         if(userVal != ""){
             queryPS.setParams({userId : userVal});
-        } else{
-            cmp.find("permSetId").set("v.value", "");
-        }
-        helper.buttonToggle(cmp);
+        } 
+        
         queryPS.setCallback(this, function(resp){
             if(resp.getState() === "SUCCESS"){
+                resp.getReturnValue().forEach(function(ps){
+                    if(currPsId == ps.permSetId && ps.disabled == "true"){
+                        cmp.set("v.selectedPS", "");
+                    }
+                });
                 cmp.set("v.permSets", resp.getReturnValue());
+                helper.buttonToggle(cmp);
             }
         });
         $A.enqueueAction(queryPS);
@@ -36,7 +40,7 @@
         var createGrant = cmp.get("c.insertPermSetGrant");
         createGrant.setParams({
             userId : cmp.find("userId").get("v.value"),
-            permSetId : cmp.find("permSetId").get("v.value"),
+            permSetId : cmp.get("v.selectedPS"),
             dur : cmp.find("dur").get("v.value"),
             durUnit : cmp.find("durUnit").get("v.value")
         });
@@ -67,18 +71,4 @@
     inputChange : function(cmp, event, helper){
         helper.buttonToggle(cmp);
     }
-
-    /* difficulty displaying pop-overs; nice-to-have, save for later
-
-    toggleBtnPopover : function(cmp, event, helper){
-        console.log("in the toggle method");
-        cmp.find('btnPopover').showCustomPopover({
-            body: "Popovers are positioned relative to a reference element",
-            referenceSelector: ".btnElem",
-            cssClass: "popoverclass,no-pointer"
-        }).then(function(overLay){
-            console.log(overLay);
-        });
-    },
-    */   
 })
