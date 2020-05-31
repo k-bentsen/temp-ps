@@ -955,12 +955,12 @@
         <processMetadataValues>
             <name>originalFormula</name>
             <value>
-                <stringValue>[Permission_Set_Grant__c].Granted_At__c + (CASE(TEXT([Permission_Set_Grant__c].Duration_Unit__c), &quot;Minutes&quot;, 0.000691 *  [Permission_Set_Grant__c].Duration__c, &quot;Hours&quot;, 0.0416667 * [Permission_Set_Grant__c].Duration__c, &quot;Days&quot;, 1 * [Permission_Set_Grant__c].Duration__c, 0.0416667 * [Permission_Set_Grant__c].Duration__c) - 0.0416667)</stringValue>
+                <stringValue>[Permission_Set_Grant__c].Granted_At__c + CASE(TEXT([Permission_Set_Grant__c].Duration_Unit__c), &quot;Minutes&quot;, 0.000691 *  [Permission_Set_Grant__c].Duration__c, &quot;Hours&quot;, 0.0416667 * [Permission_Set_Grant__c].Duration__c, &quot;Days&quot;, 1 * [Permission_Set_Grant__c].Duration__c, 0.0416667 * [Permission_Set_Grant__c].Duration__c)</stringValue>
             </value>
         </processMetadataValues>
-        <name>formula_2_myRule_1_A3_6513417331</name>
+        <name>formula_2_myRule_1_A3_8707993894</name>
         <dataType>DateTime</dataType>
-        <expression>{!myVariable_current.Granted_At__c} + (CASE(TEXT({!myVariable_current.Duration_Unit__c}), &quot;Minutes&quot;, 0.000691 *  {!myVariable_current.Duration__c}, &quot;Hours&quot;, 0.0416667 * {!myVariable_current.Duration__c}, &quot;Days&quot;, 1 * {!myVariable_current.Duration__c}, 0.0416667 * {!myVariable_current.Duration__c}) - 0.0416667)</expression>
+        <expression>{!myVariable_current.Granted_At__c} + CASE(TEXT({!myVariable_current.Duration_Unit__c}), &quot;Minutes&quot;, 0.000691 *  {!myVariable_current.Duration__c}, &quot;Hours&quot;, 0.0416667 * {!myVariable_current.Duration__c}, &quot;Days&quot;, 1 * {!myVariable_current.Duration__c}, 0.0416667 * {!myVariable_current.Duration__c})</expression>
     </formulas>
     <formulas>
         <processMetadataValues>
@@ -969,7 +969,7 @@
                 <stringValue>NOW()</stringValue>
             </value>
         </processMetadataValues>
-        <name>formula_3_myRule_1_A2_5706828218</name>
+        <name>formula_3_myRule_1_A2_3964983608</name>
         <dataType>DateTime</dataType>
         <expression>NOW()</expression>
     </formulas>
@@ -980,11 +980,11 @@
                 <stringValue>NOW()</stringValue>
             </value>
         </processMetadataValues>
-        <name>formula_7_myRule_5_A2_7054371185</name>
+        <name>formula_7_myRule_5_A2_8200735166</name>
         <dataType>DateTime</dataType>
         <expression>NOW()</expression>
     </formulas>
-    <interviewLabel>Permission_Set_Granted-7_InterviewLabel</interviewLabel>
+    <interviewLabel>Permission_Set_Granted-8_InterviewLabel</interviewLabel>
     <label>Permission Set Granted</label>
     <processMetadataValues>
         <name>ObjectType</name>
@@ -1089,7 +1089,7 @@
             </processMetadataValues>
             <field>Granted_At__c</field>
             <value>
-                <elementReference>formula_3_myRule_1_A2_5706828218</elementReference>
+                <elementReference>formula_3_myRule_1_A2_3964983608</elementReference>
             </value>
         </inputAssignments>
         <inputAssignments>
@@ -1208,7 +1208,7 @@
             </processMetadataValues>
             <field>Expires_At__c</field>
             <value>
-                <elementReference>formula_2_myRule_1_A3_6513417331</elementReference>
+                <elementReference>formula_2_myRule_1_A3_8707993894</elementReference>
             </value>
         </inputAssignments>
         <object>Permission_Set_Grant__c</object>
@@ -1288,7 +1288,7 @@
             <field>Expires_At__c</field>
             <operator>GreaterThan</operator>
             <value>
-                <elementReference>formula_7_myRule_5_A2_7054371185</elementReference>
+                <elementReference>formula_7_myRule_5_A2_8200735166</elementReference>
             </value>
         </filters>
         <filters>
@@ -1346,7 +1346,7 @@
         <processMetadataValues>
             <name>evaluationType</name>
             <value>
-                <stringValue>always</stringValue>
+                <stringValue>criteria</stringValue>
             </value>
         </processMetadataValues>
         <processMetadataValues>
@@ -1374,6 +1374,55 @@
         <connector>
             <targetReference>myWaitEvent_myWait_myRule_1_event_0_postWaitExecutionAssignment</targetReference>
         </connector>
+        <filters>
+            <processMetadataValues>
+                <name>implicit</name>
+                <value>
+                    <booleanValue>false</booleanValue>
+                </value>
+            </processMetadataValues>
+            <processMetadataValues>
+                <name>inputDataType</name>
+                <value>
+                    <stringValue>Boolean</stringValue>
+                </value>
+            </processMetadataValues>
+            <processMetadataValues>
+                <name>leftHandSideLabel</name>
+                <value>
+                    <stringValue>Expired/Revoked</stringValue>
+                </value>
+            </processMetadataValues>
+            <processMetadataValues>
+                <name>leftHandSideReferenceTo</name>
+                <value>
+                    <stringValue/>
+                </value>
+            </processMetadataValues>
+            <processMetadataValues>
+                <name>leftHandSideType</name>
+                <value>
+                    <stringValue>Boolean</stringValue>
+                </value>
+            </processMetadataValues>
+            <processMetadataValues>
+                <name>operatorDataType</name>
+                <value>
+                    <stringValue>Boolean</stringValue>
+                </value>
+            </processMetadataValues>
+            <processMetadataValues>
+                <name>rightHandSideType</name>
+                <value>
+                    <stringValue>Boolean</stringValue>
+                </value>
+            </processMetadataValues>
+            <field>Expired_Revoked__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <booleanValue>false</booleanValue>
+            </value>
+        </filters>
         <filters>
             <processMetadataValues>
                 <name>implicit</name>
@@ -1462,7 +1511,7 @@
         <object>Permission_Set_Grant__c</object>
     </recordUpdates>
     <startElementReference>isChangedDecision6_myRule_5_Expired_Revoked_c</startElementReference>
-    <status>Draft</status>
+    <status>Active</status>
     <variables>
         <name>cancelWaits</name>
         <dataType>String</dataType>
